@@ -3,3 +3,17 @@
     max-width: 1200px; /* or whatever maximum width you prefer */
     text-align: center;
   }
+
+body {
+  background-color: #f0f0f0;
+  font-family: 'Poppins', sans-serif;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: 100vh;
+}
+
+.line{
+  color: transparent;
+  width: 100%;
+}

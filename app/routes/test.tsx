@@ -2,92 +2,11 @@ import { ActionFunctionArgs, json } from '@remix-run/node';
 import { 
   Button, 
   Image } from "@nextui-org/react";
-import globalStyles from "~/styles/Global.css";
-import React, { useState, useRef, useEffect } from 'react';
-import { SubmitRecordingButton } from "~/components/SubmitRecording";
-import { c } from 'vite/dist/node/types.d-aGj9QkWt';
-import { useFetcher } from '@remix-run/react';
-
-const AudioRecorderComponent: React.FC = () => {
-  const [isRecording, setIsRecording] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [recordingStatus, setRecordingStatus] = useState<string>('');
-
-  useEffect(() => {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      console.error('MediaDevices API or getUserMedia not supported.');
-      return;
-    }
-
-    navigator.mediaDevices.getUserMedia({ audio: true })
-      .then(stream => {
-        const recorder = new MediaRecorder(stream);
-        setMediaRecorder(recorder);
-
-        recorder.ondataavailable = (event) => {
-          if (event.data.size > 0) {
-            audioChunksRef.current.push(event.data);
-          }
-        };
-
-        recorder.onstop = () => {
-          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-          setAudioBlob(audioBlob);
-          const audioUrl = URL.createObjectURL(audioBlob);
-          setAudioUrl(audioUrl);
-          setRecordingStatus('Recording stopped');
-          audioChunksRef.current = []; // Reset the chunks array
-        };
-      })
-      .catch(error => console.error('Error accessing media devices.', error));
-  }, []);
-
-  const startRecording = () => {
-    if (mediaRecorder) {
-      if (audioUrl) {
-        URL.revokeObjectURL(audioUrl);
-      }
-      audioChunksRef.current = []; // Reset the chunks array
-      mediaRecorder.start();
-      setIsRecording(true);
-      setRecordingStatus('Recording...');
-      console.log('started recording');
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorder) {
-      mediaRecorder.stop();
-      setIsRecording(false);
-      setRecordingStatus('Processing recording...');
-      console.log('stopped recording');
-    }
-  };
-
-  return (
-    <div>
-      <Button onClick={startRecording} disabled={isRecording}>Start Recording</Button>
-      <Button onClick={stopRecording} disabled={!isRecording}>Stop Recording</Button>
-      {audioUrl && <audio ref={audioRef} controls src={audioUrl} />}
-      <p>{recordingStatus}</p>
-      {/* {recordingStatus === 'Recording stopped' && audioBlob && <SubmitRecording />} */}
-      {recordingStatus === 'Recording stopped' && audioBlob && (
-        <>
-          <SubmitRecordingButton audioBlob={audioBlob} />
-        </>
-      )}
-
-    </div>
-  );
-}
-
+import styles from "~/styles/Global.css";
+import { AudioRecorder } from "~/components/AudioRecorder"; // This line should be removed as AudioRecorder is not exported from the module
 
 export function links() {
-  return [{ rel: "stylesheet", href: globalStyles }];
+  return [{ rel: "stylesheet", href: styles }];
 }
 
 // Import the createClient function only on the server side
@@ -122,7 +41,7 @@ export const action = async ({ request }: ActionFunctionArgs): Promise<ReturnTyp
     });
     console.log('Deepgram API response:', JSON.stringify(response, null, 2));
     const transcript = response.result.results.channels[0].alternatives[0].transcript;
-console.log('Transcription result:', transcript);
+    console.log('Transcription result:', transcript);
 	  console.log('success')
     if (!transcript) {
       console.log('Transcript is undefined');
@@ -161,9 +80,7 @@ export default function Test() {
       >
         Record
       </Button> */}
-      <AudioRecorderComponent />
-
-      
+      <AudioRecorder />
     </div>
   );
 }
