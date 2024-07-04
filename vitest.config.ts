@@ -16,14 +16,13 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'app/root.tsx'), // Adjust the path to your actual entry file
-      },
+      input: path.resolve(__dirname, 'app/root.tsx'), // Define your entry point here
+      external: ['~/session.server'],
     },
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'app'),
+      '~': path.resolve(__dirname, 'app'),
     },
   },
 });
