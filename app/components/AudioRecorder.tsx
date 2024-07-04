@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
 import { Button } from '@nextui-org/react';
+
+import { useState, useEffect, useRef } from 'react';
+
 import { SubmitRecordingButton } from './SubmitRecordingButton';
 
 export const AudioRecorder: React.FC = () => {

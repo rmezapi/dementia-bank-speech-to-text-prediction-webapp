@@ -50,6 +50,7 @@ module.exports = {
           "warn",
           { validStrategies: ["ternary"] },
         ],
+        'jsx-a11y/media-has-caption': 'off',
       },
     },
 
