@@ -11,15 +11,12 @@ const { NodeBuiltins } = require('esbuild-plugins-node-modules-polyfill');
 module.exports = {
   ignoredRouteFiles: ["**/.*"],
   serverModuleFormat: "cjs",
-  future: {
-    v2_errorBoundary: true,
-    v2_headers: true,
-    v2_meta: true,
-    v2_normalizeFormMethod: true,
-    v2_routeConvention: true,
-  },
   serverDependenciesToBundle: [/@deepgram/],
   browserNodeBuiltinsPolyfill: {
     modules: { events: true, buffer: true, util: true }
   },
+  appDirectory: "app",
+  assetsBuildDirectory: "public/build",
+  publicPath: "/build/",
+  serverBuildDirectory: "build",
 };
