@@ -1,0 +1,1 @@
+import{a as E,b as _,l as i,n}from"/build/_shared/chunk-F6ZQP24G.js";import{c as y,e as t}from"/build/_shared/chunk-ADMCF34Z.js";var c=y(r=>{"use strict";var a=_();r.createRoot=a.createRoot,r.hydrateRoot=a.hydrateRoot;var m});var o=t(E()),s=t(c()),e=t(n());(0,o.startTransition)(()=>{(0,s.hydrateRoot)(document,(0,e.jsx)(o.StrictMode,{children:(0,e.jsx)(i,{})}))});
