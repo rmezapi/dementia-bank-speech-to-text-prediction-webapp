@@ -4,7 +4,7 @@
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
-import { resolve } from 'path';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
@@ -14,11 +14,16 @@ export default defineConfig({
     setupFiles: ["./test/setup-test-env.ts"],
   },
   build: {
-    outDir: "./dist", // Ensure the output directory is 'dist'
+    outDir: 'dist',
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
+        main: path.resolve(__dirname, 'app/root.tsx'), // Adjust the path to your actual entry file
       },
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'app'),
     },
   },
 });
